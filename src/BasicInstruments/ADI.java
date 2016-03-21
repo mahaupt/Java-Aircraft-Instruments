@@ -23,7 +23,8 @@ public class ADI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private int cx, cy;
 	double pitch = 0.0;
-	double roll = 0.0;
+	double bank = 0.0;
+	double locOffV = 0.0;
 	
 	int sizex = 260;
 	int sizey = 260;
@@ -46,6 +47,14 @@ public class ADI extends JFrame {
         
         cx = this.getWidth()/2;
         cy = this.getHeight()/2;
+	}
+	
+	public void setPitchBankValues(double _pitch, double _bank) {
+		pitch = _pitch;
+		bank = _bank;
+	}
+	public void setGSAngle(double value) {
+		locOffV = value;
 	}
 	
 	public class ADIPanel extends JPanel {
@@ -71,6 +80,8 @@ public class ADI extends JFrame {
     		
     		//draw artifical horizon
     		artHorizon.reposition(cx, cy);
+    		artHorizon.setValues(pitch, bank);
+    		artHorizon.setGSAngle(locOffV);
     		artHorizon.draw(g);
     		
     		//draw rect around adi

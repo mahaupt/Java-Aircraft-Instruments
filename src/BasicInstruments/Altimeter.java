@@ -54,6 +54,9 @@ public class Altimeter extends JFrame {
     void setAlt(double _alt) {
     	alt = _alt;
     }
+    void setAltSet(double _altset) {
+    	alt_set = _altset;
+    }
     
 
 	class AltimeterPanel extends JPanel {

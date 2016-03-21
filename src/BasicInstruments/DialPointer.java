@@ -158,7 +158,7 @@ public class DialPointer {
 		value = _value;
 		value -= Math.floor(value); 
 	}
-	public void setoffCalue(double _value) {
+	public void setoffValue(double _value) {
 		offvalue = _value;
 	}
 	public void reposition(int _cx, int _cy) {

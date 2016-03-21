@@ -25,7 +25,9 @@ public class HSI extends JFrame {
 	private int cx, cy;
 	double heading = 0.0;
 	double smallA = 0.0;
+	double smallADrift = 0.0;
 	double largeA = 0.0;
+	double miles = 0.0;
 	
 	public HSI() {
 		super("Basic HSI");
@@ -45,6 +47,22 @@ public class HSI extends JFrame {
         
         cx = this.getWidth()/2;
         cy = this.getHeight()/2;
+	}
+	
+	public void setHeading(double value) {
+		heading = value;
+	}
+	public void setSmallA(double value) {
+		smallA = value;
+	}
+	public void setLargeA(double value) {
+		largeA = value;
+	}
+	public void setSmallADrift(double value) {
+		smallADrift = value;
+	}
+	public void setMiles(double value) {
+		miles = value;
 	}
 	
 	
@@ -94,6 +112,7 @@ public class HSI extends JFrame {
     		
     		//draw number display
     		numDisp.reposition(cx, cy - 50);
+    		numDisp.setValue(miles * 10);
     		numDisp.draw(g);
     		
     		//draw comma and line
@@ -115,6 +134,7 @@ public class HSI extends JFrame {
     		//draw pointer
     		dialPt.reposition(cx, cy);
     		dialPt.setValue(smallA);
+    		dialPt.setoffValue(smallADrift);
     		dialPt.draw(g);
     		
     		//draw second pointer

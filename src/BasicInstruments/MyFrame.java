@@ -37,11 +37,30 @@ public class MyFrame extends JFrame
         ADI adi = new ADI();
         
         do {
+        	int doubleSize =  Double.SIZE / Byte.SIZE;
         	//receive data
         	DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         	serverSocket.receive(receivePacket);
-        	double altitude = ByteBuffer.wrap(receivePacket.getData()).order(ByteOrder.LITTLE_ENDIAN).getDouble();
-        	alt.setAlt((float)altitude);
+        	
+        	double altitude = ByteBuffer.wrap(receivePacket.getData(), 0*doubleSize, doubleSize).order(ByteOrder.LITTLE_ENDIAN).getDouble();
+        	double altimSet = ByteBuffer.wrap(receivePacket.getData(), 1*doubleSize, doubleSize).order(ByteOrder.LITTLE_ENDIAN).getDouble();
+        	alt.setAlt(altitude);
+        	alt.setAltSet(altimSet);
+        	
+        	double heading = ByteBuffer.wrap(receivePacket.getData(), 2*doubleSize, doubleSize).order(ByteOrder.LITTLE_ENDIAN).getDouble();
+        	double largeA = ByteBuffer.wrap(receivePacket.getData(), 3*doubleSize, doubleSize).order(ByteOrder.LITTLE_ENDIAN).getDouble();
+        	double smallA = ByteBuffer.wrap(receivePacket.getData(), 4*doubleSize, doubleSize).order(ByteOrder.LITTLE_ENDIAN).getDouble();
+        	double smallADrift = ByteBuffer.wrap(receivePacket.getData(), 5*doubleSize, doubleSize).order(ByteOrder.LITTLE_ENDIAN).getDouble();
+        	hsi.setHeading(heading);
+        	hsi.setLargeA(largeA);
+        	hsi.setSmallA(smallA);
+        	hsi.setSmallADrift(smallADrift);
+        	
+        	double pitch = ByteBuffer.wrap(receivePacket.getData(), 6*doubleSize, doubleSize).order(ByteOrder.LITTLE_ENDIAN).getDouble();
+        	double bank = ByteBuffer.wrap(receivePacket.getData(), 7*doubleSize, doubleSize).order(ByteOrder.LITTLE_ENDIAN).getDouble();
+        	double gsAngle = ByteBuffer.wrap(receivePacket.getData(), 8*doubleSize, doubleSize).order(ByteOrder.LITTLE_ENDIAN).getDouble();
+        	adi.setPitchBankValues(pitch, bank);
+        	adi.setGSAngle(gsAngle);
         	
         	hsi.repaint();
         	alt.repaint();
