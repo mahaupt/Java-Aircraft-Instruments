@@ -37,7 +37,7 @@ public class MyFrame extends JFrame
         ADI adi = new ADI();
         
         do {
-        	int doubleSize =  Double.SIZE / Byte.SIZE;
+        	/*int doubleSize =  Double.SIZE / Byte.SIZE;
         	//receive data
         	DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         	serverSocket.receive(receivePacket);
@@ -60,7 +60,30 @@ public class MyFrame extends JFrame
         	double bank = ByteBuffer.wrap(receivePacket.getData(), 7*doubleSize, doubleSize).order(ByteOrder.LITTLE_ENDIAN).getDouble();
         	double gsAngle = ByteBuffer.wrap(receivePacket.getData(), 8*doubleSize, doubleSize).order(ByteOrder.LITTLE_ENDIAN).getDouble();
         	adi.setPitchBankValues(pitch, bank);
-        	adi.setGSAngle(gsAngle);
+        	adi.setGSAngle(gsAngle);*/
+        	
+        	//receive data
+        	DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+        	serverSocket.receive(receivePacket);
+        	
+        	//split data
+        	String sentence = new String( receivePacket.getData(), 0, receivePacket.getLength());
+    		System.out.println("Received: " + sentence);
+    		String[] split = sentence.split(",");
+    		
+    		//altimeter
+    		alt.setAlt(Double.parseDouble(split[0]));
+    		alt.setAltSet(Double.parseDouble(split[1]));
+    		
+    		//ADI
+    		adi.setPitchBankValues(Double.parseDouble(split[2]), Double.parseDouble(split[3]));
+
+    		//HSI
+    		//hsi.setHeading(Double.parseDouble(split[4]));
+    		//hsi.setSmallA(Double.parseDouble(split[5])/Math.PI/2);
+    		//hsi.setSmallADrift(Double.parseDouble(split[6]));
+    		//hsi.setLargeA(Double.parseDouble(split[7])/Math.PI/2);
+    		
         	
         	hsi.repaint();
         	alt.repaint();
